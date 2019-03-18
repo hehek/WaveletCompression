@@ -17,7 +17,7 @@ namespace ExampleВ4
             ArrayList CH = new ArrayList();
             for(int i=0; i< length; i++)
             {
-               n = Math.Pow(-1, i) * (double)CL[length - i - 1];
+               n = Math.Pow(-1, i) * Convert.ToDouble(CL[length - i - 1]);
                 CH.Add(n);
             }            
             return CH;
@@ -49,6 +49,33 @@ namespace ExampleВ4
             return outList;
         }
 
+        //Список коэффициентов обратной матрицы
+        static ArrayList icoeffs(ArrayList CL, ArrayList CH)
+        {
+
+           
+            ArrayList outList = new ArrayList();
+            ArrayList iCL = new ArrayList();
+            ArrayList iCH = new ArrayList();
+            for(int k= CH.Count ; k >0  ; k -= 2)
+            {
+                if (k > 1 && k< CH.Count + 1)
+                {
+                    iCH.Add(CL[k - 2]);
+                    iCH.Add(CH[k - 2]);
+                }
+             
+                iCL.Add(CL[k - 1]);
+                iCL.Add(CH[k - 1]);
+
+            }
+            outList.Add(iCH);
+            outList.Add(iCL);
+            return outList;
+        }
+      
+
+
         static void Main(string[] args)
         {
             //Коэффициенты первой строки, относящейся к фильтру низких (L, low) частот.
@@ -66,6 +93,20 @@ namespace ExampleВ4
                 Console.WriteLine(i);
 
             }
+
+            ArrayList C_1 = new ArrayList() {0,1,2,3};
+            ArrayList outList_1 = icoeffs(C_1, hpf_coeffs(C_1));
+            //[1.5, -0.5, 3.5, -0.5]  
+            foreach (ArrayList i in outList_1)
+            {
+                foreach (var k in i)
+                    Console.Write(Convert.ToDouble(k)+" ");
+
+            }
+
+            //            >>> C = [0, 1, 2, 3]
+            //>>> icoeffs(C, hpf_coeffs(C))
+            //([2, 1, 0, 3], [3, 0, 1, -2])
 
             Console.ReadKey();
 
